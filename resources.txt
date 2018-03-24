@@ -1,0 +1,5 @@
+ML
+- https://medium.com/@tifa2up/image-classification-using-deep-neural-networks-a-beginner-friendly-approach-using-tensorflow-94b0a090ccd4
+- https://becominghuman.ai/building-an-image-classifier-using-deep-learning-in-python-totally-from-a-beginners-perspective-be8dbaf22dd8
+- https://www.pyimagesearch.com/2017/12/11/image-classification-with-keras-and-deep-learning/
+- http://cv-tricks.com/tensorflow-tutorial/training-convolutional-neural-network-for-image-classification/ 
