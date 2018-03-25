@@ -1,0 +1,13 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+	module.exports = require(_dependencyMap[0], "react-native/Libraries/Image/AssetRegistry").registerAsset({
+		"__packager_asset": true,
+		"httpServerLocation": "/assets/components",
+		"width": 1087,
+		"height": 901,
+		"scales": [1],
+		"hash": "691ab8b19ff2275271ebaa23cc5f9fd3",
+		"name": "Camera",
+		"type": "png",
+		"fileHashes": ["691ab8b19ff2275271ebaa23cc5f9fd3"]
+	});
+});

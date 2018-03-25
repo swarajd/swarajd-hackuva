@@ -1,0 +1,420 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = require(_dependencyMap[1], "./node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _jsxFileName = "/root/Documents/swarajd-hackuva/react-frontend/App.js";
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _expo = require(_dependencyMap[2], "expo");
+
+  var _reactNative = require(_dependencyMap[3], "react-native");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    App: {
+      displayName: "App"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/root/Documents/swarajd-hackuva/react-frontend/App.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var styles = _reactNative.StyleSheet.create({
+    button: {
+      backgroundColor: "#050A2B",
+      borderRadius: 20,
+      padding: 10,
+      marginBottom: 20
+    },
+    container: {
+      alignItems: 'center',
+      backgroundColor: '#050A2B',
+      flex: 1,
+      justifyContent: 'center',
+      paddingTop: _expo.Constants.statusBarHeight
+    },
+    text: {
+      color: '#CAC6B5',
+      fontSize: 18,
+      fontWeight: 'bold',
+      margin: 24,
+      textAlign: 'center'
+    }
+  });
+
+  var mainScreen = "MAIN_SCREEN";
+  var loadingScreen = "LOADING_SCREEN";
+  var helpScreen = "HELP_SCREEN";
+
+  var App = _wrapComponent("App")(function (_Component) {
+    _inherits(App, _Component);
+
+    function App() {
+      var _ref,
+          _this2 = this;
+
+      var _temp, _this, _ret;
+
+      _classCallCheck(this, App);
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+        cameraPerm: null,
+        locationPerm: null,
+        screen: mainScreen
+      }, _this.componentWillMount = function _callee() {
+        var askCamera, askLocation;
+        return regeneratorRuntime.async(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return regeneratorRuntime.awrap(_expo.Permissions.askAsync(_expo.Permissions.CAMERA));
+
+              case 2:
+                askCamera = _context.sent;
+
+                _this.setState({
+                  cameraPerm: askCamera.status === 'granted'
+                });
+
+                _context.next = 6;
+                return regeneratorRuntime.awrap(_expo.Permissions.askAsync(_expo.Permissions.LOCATION));
+
+              case 6:
+                askLocation = _context.sent;
+
+                _this.setState({
+                  locationPerm: askLocation.status === 'granted'
+                });
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, null, _this2);
+      }, _this.takePhoto = function _callee2() {
+        var imageURI, imageFile, body, locationData, locationStruct, postResponse, responseJSON;
+        return regeneratorRuntime.async(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return regeneratorRuntime.awrap(Expo.ImagePicker.launchCameraAsync());
+
+              case 2:
+                imageURI = _context2.sent;
+
+                if (imageURI.cancelled) {
+                  _context2.next = 30;
+                  break;
+                }
+
+                imageFile = {
+                  uri: imageURI,
+                  type: 'image/png',
+                  name: 'picture'
+                };
+                body = new FormData();
+                body.append("picture", imageFile);
+                _context2.next = 9;
+                return regeneratorRuntime.awrap(Expo.Location.getCurrentPositionAsync({
+                  enableHighAccuracy: true
+                }));
+
+              case 9:
+                locationData = _context2.sent;
+                locationStruct = {
+                  lat: locationData.coords.latitude,
+                  lng: locationData.coords.longitude,
+                  accuracy: locationData.coords.accuracy
+                };
+                body.append("location.coordinates", JSON.stringify(locationStruct));
+                _context2.prev = 12;
+
+                _this.setState({
+                  screen: loadingScreen
+                });
+
+                _context2.next = 16;
+                return regeneratorRuntime.awrap(fetch('http://34.207.94.186:5000/process_image', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'image/png'
+                  },
+                  body: body
+                }));
+
+              case 16:
+                postResponse = _context2.sent;
+                _context2.next = 19;
+                return regeneratorRuntime.awrap(postResponse.json());
+
+              case 19:
+                responseJSON = _context2.sent;
+                console.log("[+] Services:");
+
+                if (responseJSON.services.fire) {
+                  console.log("    Fire: On the way");
+                } else {
+                  console.log("    Fire: Idle");
+                }
+
+                if (responseJSON.services.medical) {
+                  console.log("    Medical: On the way");
+                } else {
+                  console.log("    Medical: Idle");
+                }
+
+                if (responseJSON.services.police) {
+                  console.log("    Police: On the way");
+                } else {
+                  console.log("    Police: Idle");
+                }
+
+                _this.setState({
+                  screen: helpScreen
+                });
+
+                _context2.next = 30;
+                break;
+
+              case 27:
+                _context2.prev = 27;
+                _context2.t0 = _context2["catch"](12);
+                console.error(_context2.t0);
+
+              case 30:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, null, _this2, [[12, 27]]);
+      }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(App, [{
+      key: "render",
+      value: function render() {
+        var _this3 = this;
+
+        if (this.state.cameraPerm === null || !this.state.cameraPerm || this.state.locationPerm === null || !this.state.locationPerm) {
+          return _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.container,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 114
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: styles.text,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 115
+                }
+              },
+              this.state.cameraPerm === null || !this.state.cameraPerm ? 'Camera' : 'Location',
+              " privileges are disabled. Go to Settings > Privacy >  ",
+              this.state.cameraPerm === null || !this.state.cameraPerm ? 'Camera' : 'Location Services',
+              " > MLTrek to enable."
+            )
+          );
+        } else if (this.state.screen === mainScreen) {
+          return _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.container,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 122
+              }
+            },
+            _react3.default.createElement(_reactNative.StatusBar, {
+              barStyle: "light-content",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 123
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.TouchableOpacity,
+              {
+                style: styles.button,
+                onPress: this.takePhoto,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 124
+                }
+              },
+              _react3.default.createElement(_reactNative.Image, {
+                style: {
+                  resizeMode: 'center'
+                },
+                source: require(_dependencyMap[4], "./assets/Camera.png"),
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 125
+                }
+              })
+            )
+          );
+        } else if (this.state.screen === loadingScreen) {
+          return _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.container,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 131
+              }
+            },
+            _react3.default.createElement(_reactNative.StatusBar, {
+              barStyle: "light-content",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 132
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: styles.text,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 133
+                }
+              },
+              "Loading..."
+            )
+          );
+        } else if (this.state.screen === helpScreen) {
+          return _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.container,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 138
+              }
+            },
+            _react3.default.createElement(_reactNative.StatusBar, {
+              barStyle: "light-content",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 139
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: styles.text,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 140
+                }
+              },
+              "Help is on the way!"
+            ),
+            _react3.default.createElement(_reactNative.Image, {
+              style: {
+                resizeMode: 'center'
+              },
+              source: require(_dependencyMap[5], "./assets/Help.png"),
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 141
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.View,
+              {
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 142
+                }
+              },
+              _react3.default.createElement(_reactNative.Button, {
+                style: {
+                  position: 'absolute',
+                  right: 0
+                },
+                color: "#DD365E",
+                title: "Back",
+                onPress: function onPress() {
+                  _this3.setState({
+                    screen: mainScreen
+                  });
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 143
+                }
+              })
+            )
+          );
+        } else {
+          return _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.container,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 149
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: styles.text,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 150
+                }
+              },
+              "I don't know how you got here."
+            )
+          );
+        }
+      }
+    }]);
+
+    return App;
+  }(_react2.Component));
+
+  exports.default = App;
+});

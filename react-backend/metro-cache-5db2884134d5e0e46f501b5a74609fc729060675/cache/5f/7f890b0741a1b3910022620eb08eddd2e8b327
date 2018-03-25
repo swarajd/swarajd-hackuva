@@ -1,0 +1,34 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  'use strict';
+
+  var NativeModules = require(_dependencyMap[0], "NativeModules");
+
+  var Platform = {
+    OS: 'ios',
+
+    get Version() {
+      var constants = NativeModules.PlatformConstants;
+      return constants && constants.osVersion;
+    },
+
+    get isPad() {
+      var constants = NativeModules.PlatformConstants;
+      return constants ? constants.interfaceIdiom === 'pad' : false;
+    },
+
+    get isTVOS() {
+      var constants = NativeModules.PlatformConstants;
+      return constants ? constants.interfaceIdiom === 'tv' : false;
+    },
+
+    get isTesting() {
+      var constants = NativeModules.PlatformConstants;
+      return constants && constants.isTesting;
+    },
+
+    select: function select(obj) {
+      return 'ios' in obj ? obj.ios : obj.default;
+    }
+  };
+  module.exports = Platform;
+});

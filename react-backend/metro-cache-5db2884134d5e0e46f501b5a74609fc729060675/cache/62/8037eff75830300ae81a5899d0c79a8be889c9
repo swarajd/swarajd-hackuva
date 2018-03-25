@@ -1,0 +1,282 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = require(_dependencyMap[1], "./../node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _jsxFileName = "/root/Documents/Whatever/components/CameraDisplay.js";
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _expo = require(_dependencyMap[2], "expo");
+
+  var _reactNative = require(_dependencyMap[3], "react-native");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    Class: {
+      displayName: "Class"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/root/Documents/Whatever/components/CameraDisplay.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var styles = _reactNative.StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      backgroundColor: '#050A2B',
+      flex: 1,
+      justifyContent: 'center',
+      paddingTop: _expo.Constants.statusBarHeight
+    },
+    text: {
+      color: '#CAC6B5',
+      fontSize: 18,
+      fontWeight: 'bold',
+      margin: 24,
+      textAlign: 'center'
+    }
+  });
+
+  var Class = _wrapComponent("Class")(function (_Component) {
+    _inherits(Class, _Component);
+
+    function Class() {
+      var _ref,
+          _this2 = this;
+
+      var _temp, _this, _ret;
+
+      _classCallCheck(this, Class);
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Class.__proto__ || Object.getPrototypeOf(Class)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+        hasCameraPermission: null,
+        cameraView: null
+      }, _this.componentWillMount = function _callee() {
+        var askPerm;
+        return regeneratorRuntime.async(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return regeneratorRuntime.awrap(_expo.Permissions.askAsync(_expo.Permissions.CAMERA));
+
+              case 2:
+                askPerm = _context.sent;
+
+                _this.setState({
+                  hasCameraPermission: askPerm.status === 'granted'
+                });
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, null, _this2);
+      }, _this.takePhoto = function _callee2() {
+        var imageURI, imageFile, body, postResponse;
+        return regeneratorRuntime.async(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return regeneratorRuntime.awrap(Expo.takeSnapshotAsync(_this.cameraView, {
+                  format: 'png',
+                  result: 'file'
+                }));
+
+              case 2:
+                imageURI = _context2.sent;
+                imageFile = {
+                  uri: imageURI,
+                  type: 'image/png',
+                  name: 'picture'
+                };
+                body = new FormData();
+                body.append('picture', imageFile);
+                console.log(body);
+                _context2.prev = 7;
+                _context2.next = 10;
+                return regeneratorRuntime.awrap(fetch('http://34.207.94.186:5000/process_image', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'image/png'
+                  },
+                  body: body
+                }));
+
+              case 10:
+                postResponse = _context2.sent;
+                console.log(postResponse);
+                _context2.next = 17;
+                break;
+
+              case 14:
+                _context2.prev = 14;
+                _context2.t0 = _context2["catch"](7);
+                console.error(_context2.t0);
+
+              case 17:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, null, _this2, [[7, 14]]);
+      }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(Class, [{
+      key: "render",
+      value: function render() {
+        var _this3 = this;
+
+        if (this.state.hasCameraPermission === null) {
+          return _react3.default.createElement(_reactNative.View, {
+            style: styles.container,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 73
+            }
+          });
+        } else if (this.state.hasCameraPermission) {
+          return _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: {
+                flex: 1
+              },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 76
+              }
+            },
+            _react3.default.createElement(
+              _expo.Camera,
+              {
+                ref: function ref(_ref2) {
+                  _this3.cameraView = _ref2;
+                },
+                style: {
+                  flex: 1
+                },
+                type: _expo.Camera.Constants.Type.back,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 77
+                }
+              },
+              _react3.default.createElement(
+                _reactNative.View,
+                {
+                  style: {
+                    flex: 1,
+                    flexDirection: 'column',
+                    backgroundColor: 'transparent',
+                    alignItems: 'center'
+                  },
+                  __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 78
+                  }
+                },
+                _react3.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: {
+                      flex: 1,
+                      flexDirection: 'row',
+                      alignItems: 'flex-end',
+                      padding: 25
+                    },
+                    __source: {
+                      fileName: _jsxFileName,
+                      lineNumber: 85
+                    }
+                  },
+                  _react3.default.createElement(
+                    _reactNative.TouchableHighlight,
+                    {
+                      underlayColor: "transparent",
+                      onPress: this.takePhoto,
+                      __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 86
+                      }
+                    },
+                    _react3.default.createElement(_reactNative.Image, {
+                      style: {
+                        width: 87,
+                        height: 60
+                      },
+                      source: require(_dependencyMap[4], './Button.png'),
+                      __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 87
+                      }
+                    })
+                  )
+                )
+              )
+            )
+          );
+        } else {
+          return _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.container,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 96
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: styles.text,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 97
+                }
+              },
+              "No camera permission. Please enable under Settings > Privacy > Camera > Disaster Classification"
+            )
+          );
+        }
+      }
+    }]);
+
+    return Class;
+  }(_react2.Component));
+
+  exports.default = Class;
+});
